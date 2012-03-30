@@ -1,0 +1,138 @@
+/*
+ * Base
+ */
+$page-bg-color: #000;
+$base-color: #333;
+$base-gradient: 'glossy';
+
+/*
+ * Page
+ */
+$page-text-color: #FFF;
+
+/*
+ * List
+ */
+$list-header-bg-color:#232323;
+$list-color: #000;
+$list-active-color: #454545;
+
+/*
+ * Ext.Sheet
+ */
+// $sheet-bg-color: #F00;
+// $sheet-color: #F00;
+
+/*
+ * Picker
+ */
+//$picker-bg-color: #F00;
+
+/*
+ * Global
+ */
+$active-color: #000;
+
+
+
+ 
+
+@import 'sencha-touch/default/all';
+
+@include sencha-panel;
+@include sencha-buttons;
+@include sencha-sheet;
+@include sencha-picker;
+@include sencha-tabs;
+@include sencha-toolbar;
+@include sencha-toolbar-forms;
+@include sencha-carousel;
+@include sencha-indexbar;
+@include sencha-list;
+@include sencha-list-paging;
+@include sencha-list-pullrefresh;
+@include sencha-layout;
+@include sencha-form;
+@include sencha-msgbox;
+@include sencha-loading-spinner;
+
+@include sencha-button-ui('dark', #232323,'glossy');
+
+body {
+  font-family: Helvetica;
+}
+
+body.x-desktop {
+  font-size: 100% !important;	
+}
+
+// Form fields with rounded corners
+.x-field {
+	border: none;
+}
+.x-field input, .x-field textarea, .x-field select, .x-field .x-field-slider {
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+
+// Page title
+.background {
+	width: 100%;
+	height: 480px;
+
+	background-image: url("../../../../images/background.png");
+}
+
+.page_heading {
+	font-weight: 700;
+	font-size: 14px;
+	color: #D5A740;
+	margin: 0 5% 5px 5%;
+}
+
+.text {
+	font-size: 12px;
+	margin: 0 5% 15px 5%;
+}
+
+/*
+ * Welcome Gateway Page
+ */
+ .agree_text {
+ 	font-size: 12px;
+ }
+
+/*
+ * Home Page
+ */
+ 
+ .perfect_pint_icon {
+ 	width: 80px !important;
+ 	height: 80px !important;
+
+ 	background-image: url("../../../../images/icon.png");
+ }
+
+ .perfect_pub_icon {
+ 	width: 80px !important;
+ 	height: 80px !important;
+
+ 	background-image: url("../../../../images/icon.png");
+ }
+
+ /*
+  * Perfect Pint
+  */
+.arrow_prev {
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 1;
+}
+
+.arrow_next {
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 1;
+}
