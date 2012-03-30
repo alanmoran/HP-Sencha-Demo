@@ -9,7 +9,7 @@ This short part of the tutorial will show you how to create a webview within you
 * Initialize a webview using the FeedHenry API
 
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v7/docs/webView.png)
+![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v7/docs/webView.png)
 
 ## Step 1
 
@@ -63,4 +63,4 @@ The code below is used to initialise the webview by clicking on the web icon and
 		    ]
 	  	}),
 	  	
-'git checkout v7' to get the completed code foir this section which is also the starting point for the <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/v7">next section.</a>
+'git checkout v7' to get the completed code foir this section which is also the starting point for the <a href="https://github.com/feedhenry/HP-Sencha-Demo/tree/v7">next section.</a>
