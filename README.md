@@ -8,7 +8,7 @@ In this tutorial we will be creating the home view
 * Learn about xtype
 * Use CSS to style our Sencha components. 
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/blob/v2/docs/HomeView.png?raw=true)
+![](https://github.com/feedhenry/HP-Sencha-Demo/blob/v2/docs/HomeView.png?raw=true)
 
 ## Step 1
 
@@ -124,10 +124,10 @@ and
 
 	<script type="text/javascript" src="app/views/Home.js"></script>
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/blob/v2/docs/HomeView.png?raw=true)
+![](https://github.com/feedhenry/HP-Sencha-Demo/blob/v2/docs/HomeView.png?raw=true)
 
 ## Extra Task
 
 Try and add some extra icons to the home screen, some sample images are provided in the images/icons directory. Add the necessary Twitter icon as shown in the image at the beggining of this tutorial. This will require extra CSS rules.
 
-<a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v3">Finished Code Pt2.zip</a>
+<a href="https://github.com/feedhenry/HP-Sencha-Demo/zipball/v3">Finished Code Pt2.zip</a>
