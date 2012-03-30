@@ -8,7 +8,7 @@ In this tutorial we will be creating the basic structure of the app. At the end 
 * Create a viewport                     (app/views/Viewport.js)
 * Create a view with some UI components (app/views/Home.js)
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v1/docs/HomeView.png)
+![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v1/docs/HomeView.png)
 
 ## Step 1
 
@@ -104,6 +104,6 @@ Inside the items array add the following code;
 
 If you open your index.html page you will now see the following;
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v1/docs/TestView.png)
+![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v1/docs/TestView.png)
 
-<a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v2">Finished Code Pt1.zip</a>
+<a href="https://github.com/feedhenry/HP-Sencha-Demo/zipball/v2">Finished Code Pt1.zip</a>
