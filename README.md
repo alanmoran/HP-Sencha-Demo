@@ -10,7 +10,7 @@ In this tutorial we will adding a new view for credit card validation. This will
 * Learn to use input fields and read from them with Ext.getCmp.
 * Use $ fh.web()
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v5/docs/creditCard.png)
+![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v5/docs/creditCard.png)
 
 ## Step 1
 
@@ -184,6 +184,6 @@ The payment function() now needs to be added to our cloud functions in main.js i
 Verify what you have made is working by trying to validate a number sequence such as '0000000000000000'. You should receive the output shown below.
 
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v5/docs/creditCardCall.png)
+![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v5/docs/creditCardCall.png)
 
-'git checkout v5' to get the completed code for this section which is also the starting point for the <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/v5">next section.</a>
+'git checkout v5' to get the completed code for this section which is also the starting point for the <a href="https://github.com/feedhenry/HP-Sencha-Demo/tree/v5">next section.</a>
