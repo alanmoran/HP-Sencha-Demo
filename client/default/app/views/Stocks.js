@@ -74,7 +74,7 @@ app.views.Stocks = Ext.extend(Ext.Panel, {
       disableSelection: true,
       scroll: "vertical",
       store: app.stores.stocks,
-      itemTpl:'<h2>{Name}</h2></br><table><tr><th>Company</th><th>Date</th><th>Time</th><th>Change</th><th>Open</th></tr><tr><td>{Symbol}</td><td>{Date}</td><td>{Time}</td><td>{Change}</td><td>{Open}</td></tr></table>',
+      itemTpl:'<h2>Stock:{Symbol}</h2><ul><li>Change:{Change}</li><li>Date:{Date}</li><li>Last:{Last}</li><li>Name:{Name}</li><li>Symbol:{Symbol}</li><li>Time:{Time}</li></ul>',
       flex: 1
     }]
   }]
