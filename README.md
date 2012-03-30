@@ -8,7 +8,7 @@ In this tutorial we will adding a new view for a Twitter feed page. You will lea
 * Learn about Sencha stores and models.
 * Use the $fh.web() function to make a web request for your app.
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v4/docs/twitterView.png)
+![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v4/docs/twitterView.png)
 
 ## Step 1
 
@@ -168,6 +168,6 @@ Home.js also needs to be updated. If you haven't added a Twitter button do so no
 			  }
 
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v4/docs/tweets.png)
+![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v4/docs/tweets.png)
 
-<a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v5">Finished Code Pt4.zip</a>
+<a href="https://github.com/feedhenry/HP-Sencha-Demo/zipball/v5">Finished Code Pt4.zip</a>
