@@ -9,7 +9,7 @@ For this part of the tutorial we will create a view with access to the camera. T
 * Learn to use $fh.cam()
 
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v6/docs/cameraView.png)
+![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v6/docs/cameraView.png)
 
 ## Step 1
 
@@ -186,4 +186,4 @@ Remember to add the camera view to Viewport.js which should appear as follows:
 	  msg: "Loading Data"
 	});
 
-'git checkout v6' to get the finished code for this section and starting point for the <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/v6">next section.</a>
+'git checkout v6' to get the finished code for this section and starting point for the <a href="https://github.com/feedhenry/HP-Sencha-Demo/tree/v6">next section.</a>
