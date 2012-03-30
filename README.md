@@ -11,7 +11,7 @@ This part of the tutorial will teach you how to use save and load settings from 
 * Use many types of input fields and components.
 
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v8/docs/settingsView.png)
+![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v8/docs/settingsView.png)
 
 ## Step 1
 
@@ -339,4 +339,4 @@ All that is left to do now is update our Viewport.js file. We need to include th
 	  msg: "Loading Data"
 	});
 
-'git checkout v8' to get the finished code for this section which is also the starting point for the <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/v8">next section</a>
+'git checkout v8' to get the finished code for this section which is also the starting point for the <a href="https://github.com/feedhenry/HP-Sencha-Demo/tree/v8">next section</a>
