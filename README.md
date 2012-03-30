@@ -8,7 +8,7 @@ In this tutorial we will adding a new view for the Google Maps page. You will le
 * Use Sencha controllers
 * Learn to use FeedHenry APIs
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v3/docs/MapView.png)
+![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v3/docs/MapView.png)
 
 ## Step 1
 
@@ -358,4 +358,4 @@ In the 'main.js' file found in the cloud directory, find the following code snip
 
 Changes the longitude and latitude values and then view the map page. The markers on the page should now be located in a new position.
 
-<a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v4">Finished Code Pt3.zip</a>
+<a href="https://github.com/feedhenry/HP-Sencha-Demo/zipball/v4">Finished Code Pt3.zip</a>
