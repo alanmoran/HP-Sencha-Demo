@@ -7,7 +7,7 @@ In this version of the tutorial we will restructure the app appearance. Instead 
 * Create an App that uses a tab panel view.
 * Add items to a tab panel.
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v9/docs/tabPanel.png)
+![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v9/docs/tabPanel.png)
 
 
 ## Step 1 
@@ -92,6 +92,6 @@ Right now the icons assigned to the different views do not reflect their functio
 
 The app with updated icons.
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v9/docs/tabPanelIcons.png)
+![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v9/docs/tabPanelIcons.png)
 
-<a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v9">Finished Code Pt9.zip</a>
+<a href="https://github.com/feedhenry/HP-Sencha-Demo/zipball/v9">Finished Code Pt9.zip</a>
