@@ -1,0 +1,23 @@
+.mapIcon {
+  width: 100px !important;
+  width: 100px !important;
+  background-color: transparent !important;
+  border: none !important;
+  background-size: 100% 100%;
+  background-image: url("../images/icons/maps_icon.png") !important;
+}
+.mapIcon:active, .mapIcon:hover {
+	opacity: 0.5;
+}
+
+.twitterIcon {
+  width: 100px !important;
+  width: 100px !important;
+  background-color: transparent !important;
+  border: none !important;
+  background-size: 100% 100%;
+  background-image: url("../images/icons/twitter_icon.png") !important;
+}
+.twitterIcon:active, .twitterIcon:hover {
+	opacity: 0.5;
+}
