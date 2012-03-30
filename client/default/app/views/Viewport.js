@@ -14,7 +14,7 @@ app.views.Viewport = Ext.extend(Ext.Panel, {
       home:     new app.views.Home(),
       map:      new app.views.MapView(),
       twitter:  new app.views.Twitter(),        
-      payment:  new app.views.Payment(),
+      payment:  new app.views.Payment(),      
       camera:   new app.views.Camera()
     });
     //put instances of cards into viewport

@@ -2,8 +2,6 @@ app.controllers.camera = new Ext.Controller({
 
   /*
    * Open up the native camera app
-   * On success we set the view to be our app.views.Camera view.
-   * After we set the view we update the image container to hold the taken picture.
    */
   openCamera: function() {
     $fh.cam({
