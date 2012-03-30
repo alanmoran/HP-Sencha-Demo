@@ -84,10 +84,10 @@ th{
 }
 li {
 list-style: none;
-padding-bottom: 0.5% !important;
-padding-left: 1% !important;
+padding-bottom: 4px !important;
+padding-left: 15px !important;
 }
 
 ul{
-	padding-top: 1%;
+	padding-top: 15px !important;
 }
