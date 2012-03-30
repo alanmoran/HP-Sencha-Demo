@@ -78,7 +78,7 @@ app.views.Home = Ext.extend(Ext.Panel, {
 		  		width:  100,
 		  		height: 100,
 		  		handler: function() {
-		  			
+		  			app.views.viewport.setActiveItem(app.views.payment, {type: 'slide', direction: 'left'});
 		  		}
 		  	},
 		  	{
@@ -90,7 +90,7 @@ app.views.Home = Ext.extend(Ext.Panel, {
 		  		width:  100,
 		  		height: 100,
 		  		handler: function() {
-		  		  
+
 		  		}
 		  	},
 		  	{
@@ -122,7 +122,7 @@ app.views.Home = Ext.extend(Ext.Panel, {
 		  		width:  100,
 		  		height: 100,
 		  		handler: function() {
-		  			
+
 		  		}
 		  	},
 		  	{
