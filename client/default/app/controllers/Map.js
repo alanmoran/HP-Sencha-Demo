@@ -33,8 +33,7 @@ app.controllers.map = new Ext.Controller({
   },
 
   /*
-   * Get points from the cloud using fh.act() which will call a function from
-   * the cloud in our main.js file.
+   * Get points from the cloud
    */
   getPoints: function(cache, hash) {
     var map = Ext.getCmp("map").map;

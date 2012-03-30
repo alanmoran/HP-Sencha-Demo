@@ -16,7 +16,7 @@ app.views.Home = Ext.extend(Ext.Panel, {
   		height: 20
   	},
 
-  	/* Google Maps & Twitter */
+  	/* Twitter & Google Maps Buttons */
   	new Ext.Panel({
   		height: 100,
 
@@ -46,7 +46,7 @@ app.views.Home = Ext.extend(Ext.Panel, {
 		  		width:  100,
 		  		height: 100,
 		  		handler: function() {
-		  			
+		  			app.views.viewport.setActiveItem(app.views.twitter, {type: 'slide', direction: 'left'});
 		  		}
 		  	},
 		  	{
@@ -60,7 +60,7 @@ app.views.Home = Ext.extend(Ext.Panel, {
   		height: 20
   	},
 
-  	/* Payments & Camera Buttons */
+  	/* Camera and Payment Buttons */
   	new Ext.Panel({
   		height: 100,
 
@@ -78,7 +78,7 @@ app.views.Home = Ext.extend(Ext.Panel, {
 		  		width:  100,
 		  		height: 100,
 		  		handler: function() {
-		  			
+		  			app.views.viewport.setActiveItem(app.views.payment, {type: 'slide', direction: 'left'});
 		  		}
 		  	},
 		  	{
@@ -90,7 +90,10 @@ app.views.Home = Ext.extend(Ext.Panel, {
 		  		width:  100,
 		  		height: 100,
 		  		handler: function() {
-		  		  
+		  		  Ext.dispatch({
+			        controller: app.controllers.camera,
+			        action: 'openCamera'
+			      });
 		  		}
 		  	},
 		  	{
@@ -104,7 +107,7 @@ app.views.Home = Ext.extend(Ext.Panel, {
   		height: 20
   	},
 
-  	/* Webview & Settings Buttons  */
+  	/* Stocks & Settings Buttons  */
   	new Ext.Panel({
   		height: 100,
 
@@ -122,7 +125,7 @@ app.views.Home = Ext.extend(Ext.Panel, {
 		  		width:  100,
 		  		height: 100,
 		  		handler: function() {
-		  			
+		  			app.views.viewport.setActiveItem(app.views.stocks, {type: 'slide', direction: 'left'});
 		  		}
 		  	},
 		  	{
@@ -134,7 +137,7 @@ app.views.Home = Ext.extend(Ext.Panel, {
 		  		width:  100,
 		  		height: 100,
 		  		handler: function() {
-		  			
+		  			app.views.viewport.setActiveItem(app.views.settings, {type: 'slide', direction: 'left'});
 		  		}
 		  	},
 		  	{

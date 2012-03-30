@@ -1,177 +1,39 @@
-# FeedHenry Sencha Tutorial - Part 4
-
-## test
+#Introduction to Sencha Touch
 
 ## Overview
 
-'git checkout v3' to get the starting code for this tutorial
+As part of this training Session we are going to create a simple Sencha Touch 1.1 Application. The app will train you in how to build a Sencha touch User Interface and how to navigate within it. You will also learn to use the FeedHenry APIs.
 
-In this tutorial we will adding a new view for a Twitter feed page. You will learn to use stores, models and further use of FeedHenry APIs.
+![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v1/docs/HomeView.png)
 
-* Integrate an app with Twitter to pull tweets with a specified user name.
-* Learn about Sencha stores and models.
-* Use the $fh.web() function to make a web request for your app.
+## Step 1 
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v4/docs/twitterView.png)
+To begin this tutorial download the boilerplate code from <a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/boilerplate">this link</a> and copy to your workspace or use the following git commands to setup the project in your workspace:
 
-## Step 1
+    cd my-workspace-folder
+    git clone git@github.com:feedhenry/FH-Training-App-Sencha.git.
+    cd FH-Training-App-Sencha
+    git checkout boilerplate
 
-Begin by creating the Twitter view file in views, name it Twitter.js and add the following code. This view uses a new layout type, 'vbox' which is used to stack elements vertically. We also will use the Sencha 'List' component to display tweets.
-	
-	  app.views.Twitter = Ext.extend(Ext.Panel, {
-	  title: 'Twitter',
-	  iconCls: 'time',
-	  width: '100%',
-	  /*
-	   * Layout vbox is used to arrnage items (tweets) stacked above one another
-	   */
-	  layout: {
-	    type: 'vbox'
-	  },
-
-	  listeners: {
-	  	show: function() {
-
-	  	}
-	  },
-
-	  dockedItems: [
-	    {
-	      dock: 'top',
-	      xtype: 'toolbar',
-	      title: '<img class="logo logoOffset" src="app/images/logo.png" />',
-	      items: [
-	        {
-	          text: 'Back',
-	          ui: 'back',
-	          hidden: app.hideBack || false,
-	          handler: function() {
-	            app.views.viewport.setActiveItem(app.views.home, {type: 'slide', direction: 'right'});
-	          }
-	        }
-	      ]
-	    }
-	  ],
-	  
-	  /*
-	   * Below we declare a list. It's store is set to our twitter store. 
-	   * This store is defined in another file. 
-	   * The itemTpl is a template that defines how list items are styled.
-	   * Anything in the tpl surrounded by {} means that the store 
-	   * contains this variable and to populate this list item using that data.
-	   */
-	  items: [
-	    {
-	      xtype: 'list',
-	      width: '100%',
-	      store: app.stores.twitter,
-	      itemTpl: '<img style="float: left; margin: 0px 8px 8px 0px;" src="{profile_image_url}" />' + 
-	      '<strong>{from_user}</strong>' +
-	      '{text}',
-	      flex: 1,
-	      plugins: [{
-	        ptype: 'pullrefresh'
-	      }]
-	    }
-	  ]
-	  });
+This represents our basic file structure for the entire tutorial.
 
 ## Step 2
 
-You will have seen from Step 1 that we added a list component to the Twitter view. This list is using a store, app.stores.twitter. We must define this store. In the models folder create a file called Twitter.js and add the code below. In this code we define a proxy for the model. The proxy is used to control loading and saving data to the store. The proxy here relies on a FeedHenry API call $fh.act(). The data format is JSON and the function name is 'getTweets'. The device will use $fh.act() to call the funtion from the Cloud. The function is defined in main.js file under the cloud directory. 
-	
+You are now setup to begin the tutorial. To begin Part 1 click <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/boilerplate">here</a>. 
 
-	/*
- 	 * Here we create a model using regModel. 
- 	 * The model will be used by a store as a template for it's data format.
- 	 * See that the fields here correspond to data the itemTpl will need.
- 	 */
-	app.models.Twitter = Ext.regModel('app.models.Twitter', {
-	  fields: ['from_user', 'text', 'profile_image_url', 'from_user_name'],
-	  proxy: {
-	    type: 'fhact',
-	    reader: 'json',
-	    id: 'getTweets'
-	  }
-	});
-
-	/*
-	 * Create the Twitter store for tweets using the above model. 
-	 * The store is empty, but will be populated using the model proxy.
-	 */
-	app.stores.twitter = new Ext.data.Store({
-	  model: 'app.models.Twitter',
-	  autoLoad: true,
-	});
-
-## Step 3 
-
-To populate our store with tweets we add the following function to the main.js file in our cloud directory. The app.stores.twitter using the app.models.Twitter will invoke this call to populate the list automatically due to it's proxy. 
-
-	function getTweets() {
-	  var username   = 'feedhenry';
-	  var num_tweets = 10;
-	  var url        = 'http://search.twitter.com/search.json?q=' + username;
-
-	  var response = $fh.web({
-	    url: url,
-	    method: 'GET',
-	    allowSelfSignedCert: true
-	  });
-	  return {'data': $fh.parse(response.body).results};
-	}
+## Links to Tutorial Sections & Tags:
 
 
-## Task
+* <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/boilerplate">Part 1</a>
+* <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/v1">Part 2</a> & <a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v1">Finished Code Pt1.zip</a>
+* <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/v2">Part 3</a> & <a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v2">Finished Code Pt2.zip</a>
+* <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/v3">Part 4</a> & <a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v3">Finished Code Pt3.zip</a>
+* <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/v4">Part 5</a> & <a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v4">Finished Code Pt4.zip</a>
+* <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/v5">Part 6</a> & <a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v5">Finished Code Pt5.zip</a>
+* <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/v6">Part 7</a> & <a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v6">Finished Code Pt6.zip</a>
+* <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/v7">Part 8</a> & <a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v7">Finished Code Pt7.zip</a>
+* <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/v8">Part 9</a> & <a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v8">Finished Code Pt8.zip</a>
 
-Try to finish out the adding of the Twitter section of the app. This will be similar to adding our Map view from v3. Remember the steps invloved:
-
-* Update index.html
-* Add the view to Viewport.js
-* A button needs to be added to the homepage and styled with CSS.
-* The button requires a handler with setActiveItem(app.views.ViewName).
-
-
-## Step 4 
-
-These steps are needed if you have not finished adding the Twitter page. Make sure to update index.html to include the new files we have made. Add the following line under our app.js include.
-
-	<!-- Models -->
-	<script type="text/javascript" src="app/models/Twitter.js"></script> 
-
-And add the following line under our <!-- Views --> tag.
-
-	<script type="text/javascript" src="app/views/Twitter.js"></script>
-
-Viewport.js now needs to be updated to include our Twitter view. Insert the following code to do this. 
-	
-	initComponent: function() {
-	    // Put instances of cards into app.views namespace
-	    Ext.apply(app.views, {
-	      home:     new app.views.Home(),
-	      map:      new app.views.MapView(),
-	      twitter:  new app.views.Twitter()
-	    });
-	    //put instances of cards into viewport
-	    Ext.apply(this, {
-	      items: [
-	        app.views.home,
-	        app.views.map,
-	        app.views.twitter
-	      ]
-	    });
-	    app.views.Viewport.superclass.initComponent.apply(this, arguments);
-	 }
-
-## Step 5
-
-Home.js also needs to be updated. If you haven't added a Twitter button do so now and add the following handler function to it. 
-
-	handler: function() {
-			  	app.views.viewport.setActiveItem(app.views.twitter, {type: 'slide', direction: 'left'});
-			  }
+* <a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v9">Finished Code Pt9.zip</a> 
 
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v4/docs/tweets.png)
-
-'git checkout v4' or click <a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v4">here</a> to get the completed code for this section which is the starting point for the <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/v4">next section</a>.

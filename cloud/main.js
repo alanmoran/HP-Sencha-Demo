@@ -1,4 +1,41 @@
 /*
+ * Stocks
+ */
+function getStockInfo(param) {
+  return stock.getStockInfo(param.name);
+}
+
+/*
+ * Twitter
+ */
+function getTweets() {
+  var username   = 'hpcloud';
+  var num_tweets = 10;
+  var url        = 'http://search.twitter.com/search.json?q=' + username;
+
+  var response = $fh.web({
+    url: url,
+    method: 'GET',
+    allowSelfSignedCert: true
+  });
+  return {'data': $fh.parse(response.body).results};
+}
+
+/*
+ * Payment
+ */ 
+function payment() {
+  var cardType   = $params.cardType;
+  var cardNumber = $params.cardNumber;
+  var url = "http://www.webservicex.net/CreditCard.asmx/ValidateCardNumber?cardType=" + cardType + "&cardNumber=" + cardNumber;
+
+  return $fh.web({
+    url: url,
+    method: 'GET'
+  });
+}
+
+/*
  * Maps
  */
 // Cache points for 10 seconds
@@ -16,9 +53,6 @@ var MARKERS = {
   ]
 };
 
-/*
- * If we have points cached in the cloud load them.
- */
 function getCachedPoints() {
   var ret = $fh.cache({
     "act": "load",
@@ -27,9 +61,6 @@ function getCachedPoints() {
   return ret.val;
 }
 
-/*
- * Similar to the above function but instead we are saving the points
- */
 function cachePoints(hash, data) {
   var obj = {
     "hash": hash,
@@ -44,9 +75,6 @@ function cachePoints(hash, data) {
   });
 }
 
- /* 
-  * This function would be called from the device using an act call.
-  */
 function getPoints() {
   var response = {};
   var cache    = getCachedPoints();

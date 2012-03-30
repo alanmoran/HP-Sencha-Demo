@@ -10,10 +10,6 @@ app.views.map = new Ext.Map({
   }
 });
 
-/*
- * This is our map view. Notice that it's items contain our 'app.views.map' that we 
- * defined ealier.
- */
 app.views.MapView = Ext.extend(Ext.Panel, {
   title: 'Map',
   iconCls: 'home',
@@ -21,11 +17,6 @@ app.views.MapView = Ext.extend(Ext.Panel, {
    type: 'fit'
   },
 
-  /*
-   * Listeners are applied to components to perform functions when a specific 
-   * event occurs. Here for example when the MapView is shown (show), we call
-   * the Map.js controller's 'getLocation' function.
-   */
   listeners: {
     activate: function() {
       google.maps.event.trigger(Ext.getCmp("map").map, 'resize');
@@ -39,10 +30,6 @@ app.views.MapView = Ext.extend(Ext.Panel, {
   	}
   },
 
-  /*
-   * Here we add a toolbar with a back button.
-   * ui: 'back' tells sencha to style the button as a back button
-   */
   dockedItems: [
   	{
   		dock: 'top',
