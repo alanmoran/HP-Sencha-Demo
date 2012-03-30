@@ -90,7 +90,10 @@ app.views.Home = Ext.extend(Ext.Panel, {
 		  		width:  100,
 		  		height: 100,
 		  		handler: function() {
-
+		  		  Ext.dispatch({
+			        controller: app.controllers.camera,
+			        action: 'openCamera'
+			      });
 		  		}
 		  	},
 		  	{
