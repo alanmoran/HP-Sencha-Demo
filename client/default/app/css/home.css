@@ -82,3 +82,12 @@ th{
 	padding: 0 20px !important;
 	text-align:center !important;
 }
+li {
+list-style: none;
+padding-bottom: 0.5% !important;
+padding-left: 1% !important;
+}
+
+ul{
+	padding-top: 1%;
+}
