@@ -5,7 +5,7 @@ app.views.Settings = Ext.extend(Ext.Panel, {
 
   listeners: {
   	show: function() {
-      // Load settings from local storage if they exist
+      // Load settings from local storage
       Ext.dispatch({
         controller: app.controllers.settings,
         action: 'loadSettings'
@@ -75,9 +75,6 @@ app.views.Settings = Ext.extend(Ext.Panel, {
             labelAlign: 'left',
             labelWidth: '30%'
           },
-          /*
-           * Another new field type. This creates a slider that can be dragged to values
-           */
           items: [
             {
               xtype: 'sliderfield',
@@ -85,9 +82,6 @@ app.views.Settings = Ext.extend(Ext.Panel, {
               name: 'value',
               label: 'Slider'
             },
-            /*
-             * A new type of field, this field is toggled based on a tap by the user.
-             */
             {
               xtype: 'togglefield',
               id: 'toggle',
@@ -107,9 +101,6 @@ app.views.Settings = Ext.extend(Ext.Panel, {
               text: 'Save Settings',
               width: '80%',
               height: '100%',
-              /*
-               * On clicking this button save our settings using a call to the controller.
-               */
               handler: function() {
                 Ext.dispatch({
                   controller: app.controllers.settings,

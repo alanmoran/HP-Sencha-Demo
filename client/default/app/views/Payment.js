@@ -1,7 +1,8 @@
 app.views.Payment = Ext.extend(Ext.Panel, {
   title: 'Payment',
-  iconCls: 'home',
+  iconCls: 'action',
   layout: 'fit',
+  scroll: 'vertical',
 
   listeners: {
     beforeshow: function() {

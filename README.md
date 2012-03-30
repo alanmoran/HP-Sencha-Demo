@@ -1,8 +1,6 @@
-# FeedHenry Sencha Tutorial - Part 8
+# FeedHenry Sencha Tutorial - v9
 
 ## Overview
-
-'git checkout v8' to get the starting code for this section.
 
 In this version of the tutorial we will restructure the app appearance. Instead of using icons to access differernt features of the app we will use a Tab Panel. This is similar to the structure found in most apps. This would usually be a difficult task but with Sencha it is easy. At the end of this tutorial you will know how to;
 
@@ -96,4 +94,4 @@ The app with updated icons.
 
 ![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v9/docs/tabPanelIcons.png)
 
-'git checkout v9' to get the completed code for this section. 
+<a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v9">Finished Code Pt9.zip</a>
