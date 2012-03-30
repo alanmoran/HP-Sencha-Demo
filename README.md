@@ -2,336 +2,63 @@
 
 ## Overview
 
-'git checkout v7' to get the starting code for this section.
+'git checkout v8' to get the starting code for this section.
 
-This part of the tutorial will teach you how to use save and load settings from the device local storage using the $fh.data() API call. More information on this API call can be found <a href="http://docs.feedhenry.com/api-reference/local-storage/">here</a>. After completing this tutorial you will be able to.
+In this version of the tutorial we will restructure the app appearance. Instead of using icons to access differernt features of the app we will use a Tab Panel. This is similar to the structure found in most apps. This would usually be a difficult task but with Sencha it is easy. At the end of this tutorial you will know how to;
 
-* Save and load data from local storage on a device.
-* Use the $fh.data() function.
-* Use many types of input fields and components.
+* Create an App that uses a tab panel view.
+* Add items to a tab panel.
+
+![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v9/docs/tabPanel.png)
 
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v8/docs/settingsView.png)
+## Step 1 
 
-## Step 1
+Begin by modifying the Viewport.js so that we only have Twitter, Map, Payment and Settings views included. As we will be using a Tab Panel we must refelect this by changing the Viewport.js to extend Ext.TabPanel and include a TabBar component.  
 
-First we develop our controller for settings. The purpose of the controller is to save and load our settings from local storage when the settings view is called. $fh.data has 3 possible parameters for 'act:', these are : remove, save and load. A key is also required because $fh.data() works on a key value pair.
-
-The code below should be copied into a settings.js file in controllers.
-
-	  app.controllers.settings = new Ext.Controller({
-	  /* 
-	   * Load settings from local storage
-	   */
-	  loadSettings: function() {
-	    /*
-	     * Call a load using fh.data, we want to load our saved 'settings'.  
-	     */
-	    $fh.data({
-	      act: 'load',
-	      key: 'settings'
-	    }, function(res) {
-	      /*
-	       * If no settings have been saved yet quit this function as none can be loaded.
-	       * res.val would contain our settings if they existed
-	       */
-	      if (res.val === null) return;
-
-	      var settings = JSON.parse(res.val);
-
-	      /*
-	       * Set the values of the fields by targeting their ID
-	       */
-	      Ext.getCmp('title' ).setValue(settings.title);
-	      Ext.getCmp('name'  ).setValue(settings.fullname);
-	      Ext.getCmp('toggle').setValue(settings.toggle);
-	      Ext.getCmp('slider').setValue(settings.slider);
-	    });
-	  },
-
-	  /*
-	   * Save settings to local storage
-	   */
-	  saveSettings: function() {
-	    /*
-	     * Get the values of the fields by targeting their ID.
-	     * Then place these values into an array to be stored locally using the fh.data call
-	     */
-	    var settings = {
-	      title:    Ext.getCmp('title').getValue(),
-	      fullname: Ext.getCmp('name').getValue(),
-	      toggle:   Ext.getCmp('toggle').getValue(),
-	      slider:   Ext.getCmp('slider').getValue()
-	    };
+	/*
+	 * Now we are extending TabPanel
+	 */
+	app.views.Viewport = Ext.extend(Ext.TabPanel, {
 
 	    /*
-	     * Call a save using fh.data, the settings array will be saved as JSON on the device. 
+	     * New component added to hold our icons.
+	     * Dock specifies the location of the tab bar, 
+	     * In iOS this will be bottom and usually top for Android as the themes follow this structure
 	     */
-	    $fh.data({
-	      act: 'save',
-	      key: 'settings',
-	      val: JSON.stringify(settings)
-	    });
-	    Ext.Msg.alert('Success', 'Your settings have been saved.', Ext.emptyFn);
-	  }
-
-	});
-
-## Task
-
-Now we need to create our view for settings. This will be a form containing multiple input types, feel free to use any you like for now. We will read the value of these inputs and use these to be saved as the 'settings' key value by the controller. The Home.js and Viewport.js need to be updated to include an icon and the new settings view respectively. Try do this. Remember you need a Settings.js file in views and controllers and must also update the index.html which should now look as follows.
-
-	<head>
-	<title>FH Training</title>
-	</head>
-
-	<!-- Sencha Touch -->
-	<script type="text/javascript" src="lib/touch/sencha-touch.js"></script>
-
-	<!-- FeedHenry Sencha Proxy Lib -->
-	<script type="text/javascript" src="lib/feedhenry/fhact.js"></script>
-
-	<!-- CSS -->
-	<link rel="stylesheet" type="text/css" href="lib/touch/resources/css/sencha-touch.css" />
-	<link rel="stylesheet" type="text/css" href="app/css/base.css" />
-	<link rel="stylesheet" type="text/css" href="app/css/home.css" />
-
-	<!-- Google Maps API -->
-	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
-
-	<!-- App -->
-	<script type="text/javascript" src="app/app.js"></script>
-
-	<!-- Models -->
-	<script type="text/javascript" src="app/models/Twitter.js"></script>
-
-	<!-- Views -->
-	<script type="text/javascript" src="app/views/Viewport.js"></script>
-	<script type="text/javascript" src="app/views/Home.js"></script>
-	<script type="text/javascript" src="app/views/Camera.js"></script>
-	<script type="text/javascript" src="app/views/Map.js"></script>
-	<script type="text/javascript" src="app/views/Payment.js"></script>
-	<script type="text/javascript" src="app/views/Settings.js"></script>
-	<script type="text/javascript" src="app/views/Twitter.js"></script>
-
-	<!-- Controllers -->
-	<script type="text/javascript" src="app/controllers/Camera.js"></script>
-	<script type="text/javascript" src="app/controllers/Map.js"></script>
-	<script type="text/javascript" src="app/controllers/Payment.js"></script>
-	<script type="text/javascript" src="app/controllers/Settings.js"></script>
-
-## Step 2
-
-If you have successfully created the app.views.Settings and can run it congratulations! If not then follow the next few steps. First create our app.views.Settings in Settings.js in views.
-
-	app.views.Settings = Ext.extend(Ext.Panel, {
-	  title: 'Settings',
-	  iconCls: 'settings',
-	  scroll: 'vertical',
-
-	  listeners: {
-	  	show: function() {
-	      // Load settings from local storage if they exist
-	      Ext.dispatch({
-	        controller: app.controllers.settings,
-	        action: 'loadSettings'
-	      });
-	  	}
-	  },
-
-	  dockedItems: [
-	  	{
-	  		dock: 'top',
-	  		xtype: 'toolbar',
-	      title: '<img class="logo logoOffset" src="app/images/logo.png" />',
-	  		items: [
-	  			{
-	  				text: 'Back',
-	          ui: 'back',
-	          hidden: app.hideBack || false,
-	  				handler: function() {
-	  					app.views.viewport.setActiveItem(app.views.home, {type: 'slide', direction: 'right'});
-	  				}
-	  			}
-	  		]
-	  	}
-	  ],
-	  
-	  items: [
-	    {
-	      xtype: 'form',
-	      items: [
-	        {
-	          xtype: 'fieldset',
-	          title: 'Personal Info',
-	          instructions: 'Please enter the information above.',
-	          defaults: {
-	            labelAlign: 'left',
-	            labelWidth: '30%'
-	          },
-	          items: [
-	            {
-	              xtype: 'selectfield',
-	              id: 'title',
-	              name: 'title',
-	              label: 'Title',
-	              options: [{
-	                text: 'Mr',
-	                value: 'mr'
-	              }, {
-	                text: 'Ms',
-	                value: 'ms'
-	              }, {
-	                text: '...',
-	                value: '...'
-	              }]
-	            },
-	            {
-	              xtype: 'textfield',
-	              id: 'name',
-	              name:  'name',
-	              label: 'Name'
-	            }
-	          ]
-	        },
-	        {
-	          xtype: 'fieldset',
-	          title: 'App Config',
-	          defaults: {
-	            labelAlign: 'left',
-	            labelWidth: '30%'
-	          },
-	          /*
-	           * Another new field type. This creates a slider that can be dragged to values
-	           */
-	          items: [
-	            {
-	              xtype: 'sliderfield',
-	              id: 'slider',
-	              name: 'value',
-	              label: 'Slider'
-	            },
-	            /*
-	             * A new type of field, this field is toggled based on a tap by the user.
-	             */
-	            {
-	              xtype: 'togglefield',
-	              id: 'toggle',
-	              name: 'enable',
-	              label: 'Toggle Switch'
-	            }
-	          ]
-	        },
-	        {
-	          layout: {
-	            type: 'hbox',
-	            pack: 'center',  
-	          },
-	          items: [
-	            {
-	              xtype: 'button',
-	              text: 'Save Settings',
-	              width: '80%',
-	              height: '100%',
-	              /*
-	               * On clicking this button save our settings using a call to the controller.
-	               */
-	              handler: function() {
-	                Ext.dispatch({
-	                  controller: app.controllers.settings,
-	                  action: 'saveSettings'
-	                });
-	              }
-	            }
-	          ]          
-	        }
-	      ]
+	    tabBar: {
+	      dock: 'bottom',
+	      layout: {
+	          pack: 'center'
+	      }
 	    },
-	  ]
-	});
 
-## Step 3
-
-Now we need to update the app.views.Home in Home.js to allow us access the settings view. The following code will allow us do that.
-
-	new Ext.Panel({
-  		height: 100,
-
-  		layout: {
-	      type: 'hbox',
-	      pack: 'center',  
+	    fullscreen: true,
+	    ui: 'light',
+	    cardSwitchAnimation: {
+	        type: 'slide',
+	        cover: true
 	    },
-	    items: [
-	    	{
-		  		xtype: 'spacer'
-		  	},
-		  	{
-		  		xtype: 'button',
-		  		cls: 'webviewIcon',
-		  		width:  100,
-		  		height: 100,
-		  		handler: function() {
-		  			$fh.webview({
-		  				title: 'FeedHenry',
-		  				url: 'http://www.feedhenry.com/'
-		  			});
-		  		}
-		  	},
-		  	{
-		  		xtype: 'spacer'
-		  	},		  	
-		  	{
-		  		xtype: 'button',
-		  		cls: 'settingsIcon',
-		  		width:  100,
-		  		height: 100,
-		  		handler: function() {
-		  			app.views.viewport.setActiveItem(app.views.settings, {type: 'slide', direction: 'left'});
-		  		}
-		  	},
-		  	{
-		  		xtype: 'spacer'
-		  	}
-	    ]
-  	}),
-
-## Step 4
-
-All that is left to do now is update our Viewport.js file. We need to include the new settings view and apply it to our viewport in the usual manner.
-
-	app.views.Viewport = Ext.extend(Ext.Panel, {
-	  fullscreen: true,
-	  ui: 'light',
-	  layout: 'card',
-
-	  cardSwitchAnimation: {
-	    type: 'slide',
-	    cover: true
-	  },
-
-	  initComponent: function() {
-	    // Put instances of cards into app.views namespace
-	    Ext.apply(app.views, {
-	      home:     new app.views.Home(),
-	      map:      new app.views.MapView(),
-	      twitter:  new app.views.Twitter(),        
-	      payment:  new app.views.Payment(),
-	      settings: new app.views.Settings(),
-	      camera:   new app.views.Camera()
-	    });
-	    //put instances of cards into viewport
-	    Ext.apply(this, {
-	      items: [
-	        app.views.home,
-	        app.views.payment,
-	        app.views.twitter,
-	        app.views.map,
-	        app.views.settings,
-	        app.views.camera
-	      ]
-	    });
-	    app.views.Viewport.superclass.initComponent.apply(this, arguments);
-	  }
+	    
+	    initComponent: function() {
+	        //put instances of cards into app.views namespace
+	        Ext.apply(app.views, {
+	          twitter:  new app.views.Twitter(), 
+	          settings: new app.views.Settings(),
+	          map:      new app.views.MapView(),
+	          payment:  new app.views.Payment(),
+	        });
+	        //put instances of cards into viewport
+	        Ext.apply(this, {
+	          items: [
+	            app.views.twitter,
+	            app.views.map,      
+	            app.views.payment,
+	            app.views.settings,
+	          ]
+	        });
+	        app.views.Viewport.superclass.initComponent.apply(this, arguments);
+	    },
 	});
 
 	// Loading Spinner
@@ -339,4 +66,34 @@ All that is left to do now is update our Viewport.js file. We need to include th
 	  msg: "Loading Data"
 	});
 
-'git checkout v8' to get the finished code for this section which is also the starting point for the <a href="https://github.com/feedhenry/FH-Training-App-Sencha/tree/v8">next section</a>
+## Step 2
+
+You will notice that our app still contains back buttons. These are not necessary any more as we are using a TabPanel. A simple way to remove these buttons is to add the following code to Viewport.js. This will cause the hidden property for any back buttons using 'hidden: app.hideBack || false' to be true therefore hiding the buttons.
+
+	/*
+	 * Hide the back buttons
+	 */
+	app.hideBack = true;
+
+## Task - Updating the icons
+
+Right now the icons assigned to the different views do not reflect their function. Try to update the icons by changing the 'iconCls' property of the views. Many of the icon type available to use can be seen in the Sencha <a href = "http://dev.sencha.com/deploy/touch/examples/kitchensink/"> Kitchen Sink </a>demo. Below are the classes we have used.
+
+	// Settings view
+	iconCls: 'settings',
+
+	// Map view
+	iconCls: 'locate',
+
+	// Payment view
+	iconCls: 'action',
+
+	// Home/Twitter view
+	iconCls: 'home',
+
+
+The app with updated icons.
+
+![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v9/docs/tabPanelIcons.png)
+
+'git checkout v9' to get the completed code for this section. 
