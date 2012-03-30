@@ -1,109 +1,133 @@
-# FeedHenry Sencha Tutorial - v1
+# FeedHenry Sencha Tutorial - v2
 
 ## Overview
 
-In this tutorial we will be creating the basic structure of the app. At the end of this tutorial you will know how to:
+In this tutorial we will be creating the home view
 
-* Initialize the Sencha touch library   (app/app.js)
-* Create a viewport                     (app/views/Viewport.js)
-* Create a view with some UI components (app/views/Home.js)
+* Create a view with a number of UI components.
+* Learn about xtype
+* Use CSS to style our Sencha components. 
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v1/docs/HomeView.png)
+![](https://github.com/feedhenry/FH-Training-App-Sencha/blob/v2/docs/HomeView.png?raw=true)
 
 ## Step 1
 
-First we need to initialize the Sencha Touch framework. This code registers the 'app' namespace and also creates an instance of the viewport. The viewport will contain any view that will be used in the app. This is done by adding the following code to app.js.
+In the css directory add a file called 'home.css'. This file will override the Sencha Touch styles that are applied and style our icon as necessary. 
 
-	/* name: 'app' will create the following namespaces:
-	 * app.views,
-	 * app.models,
-	 * app.controllers,
-	 * app.stores
-	 */
-	Ext.regApplication({
-	  name: 'app',
-	  launch: function() {
-	  	console.log("App Launched");
-	  	/*
-	  	 * Uncomment the below line once you've written viewport.js
-	  	 * as tasked in Step 2
-	  	 */
-	    //this.views.viewport = new this.views.Viewport();
-	  }
-	});
+	.mapIcon {
+	  width: 100px !important;
+	  width: 100px !important;
+	  background-color: transparent !important;
+	  border: none !important;
+	  background-size: 100% 100%;
+	  background-image: url("../images/icons/maps_icon.png") !important;
+	}
+	.mapIcon:active, .mapIcon:hover {
+		opacity: 0.5;
+	}
 
 ## Step 2
 
-Now that the Sencha Touch framework is initialized we can create the viewport. Create a file 'Viewport.js' in the views directory. Think of the viewport as a container that will hold any views/pages we will use in the app. The comments below explain the signifigance of each part of code.
+In the views directory create a view called 'Home.js' with the following code. This will create our Home panel that holds icons. The code comments below explain what each line is doing.
 
-	/*
-	 * Add our Viewport to the views namespace. 
-	 * The Viewport is going to be a Panel, a type of Sencha component.
-	 * The viewport will hold our cards (views/pages) that we will switch
-	 * between when using the app.
-	 */
-	app.views.Viewport = Ext.extend(Ext.Panel, {
-	  fullscreen: true,
-	  ui: 'light',
-	  layout: 'card',
+	app.views.Home = Ext.extend(Ext.Panel, {
+	  title: 'Home',
 
 	  /*
-	   * The animation type, if any, that will be used for swtching between the
-	   * cards we have stored in the Viewport.
+	   * IconCls is used to set a CSS class that applies an image to be used as an icon.
+	   * This will only be used if we setup a tabBar
 	   */
-	  cardSwitchAnimation: {
-	    type: 'slide',
-	    cover: true
-	  },
+	  iconCls: 'home',
 
-	  initComponent: function() {
-	    /*
-	     * Put instances of cards into app.views namespace
-	     * These cards will be other views you have defined
-	     */
-	    Ext.apply(app.views, {
+	  /*
+	   * dockedItems are items that are docked to the top or bottom of a panel/view
+	   * The 'xtype' tells Sencha what type of component we're going to use.
+	   * Examples of xtype include 'panel', 'toolbar', 'selectfield' and 'list'.
+	   */
+	  dockedItems: [
+	  	{
+	  		dock: 'top',
+	  		xtype: 'toolbar',
+	  		title: '<img class="logo" src="app/images/logo.png" />',
+	  	}
+	  ],
 
-	    });
-	    // Put instances of cards (views) into viewport here
-	    Ext.apply(this, {
-	      items: [
-
-	      ]
-	    });
-	    app.views.Viewport.superclass.initComponent.apply(this, arguments);
-	  }
-	});
-
-	/*
-	 * This global variable will hold a loading spinner (Load Mask). 
-	 * Where necessary we can call mask.show() for loading pages.
-	 */
-	var mask = new Ext.LoadMask(Ext.getBody(), {
-	  msg: "Loading Data"
-	});
-
-
-We add any views we create to the instance of the viewport. The first view we create is the 'Home' view, this view contains a number of buttons which (In later versions) will go to different views.
-
-## Task - Add a view to the viewport
-
-Inside the ‘initComponent’ function locate the following code;
-
-	//put instances of cards into viewport
-	Ext.apply(this, {
+	  /*
+	   * items to be added to the panel, 
+	   * these can also take an xtype
+	   */
 	  items: [
+	    // This a blank panel to act as padding
+	    {
+	  		xtype: 'panel',
+	  		height: 20
+	  	},
+
+	  	/* 
+	  	 * Google Maps & Twitter Buttons
+	  	 * We use new Ext.Panel here to create a panel.
+	  	 * Alternatively we could have { xtype: 'panel', height: 100, etc... }
+	  	 */
+	  	new Ext.Panel({
+	  		height: 100,
+
+	  		/*
+	  		 * Layout specifies how items should be arranged.
+	  		 * hbox arranges items horizontally across their container
+	  		 * spacers are used below to layout the icons neatly with padding
+	  		 */
+	  		layout: {
+		      type: 'hbox',
+		      pack: 'center',  
+		    },
+		    items: [
+		    	{
+			  		xtype: 'spacer'
+			  	},
+			  	{
+			  		xtype: 'button',
+			  		cls: 'mapIcon',
+			  		width:  100,
+			  		height: 100,
+			  		handler: function() {
+			  			
+			  		}
+			  	},
+			  	{
+			  		xtype: 'spacer'
+			  	},
+			  	{
+			  		xtype: 'button',
+			  		cls: 'twitterIcon',
+			  		width:  100,
+			  		height: 100,
+			  		handler: function() {
+			  			
+			  		}
+			  	},
+			  	{
+			  		xtype: 'spacer'
+			  	}
+		    ]
+	  	}),
 
 	  ]
 	});
 
-Inside the items array add the following code;
+## Step 3
 
-	{
-	  html: 'Test View'
-	}
+Update the index.html page to add references to the css and javascript files we created.
 
-If you open your index.html page you will now see the following;
+	<link rel="stylesheet" type="text/css" href="app/css/home.css" />
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v1/docs/TestView.png)
+and
 
-<a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v2">Finished Code Pt1.zip</a>
+	<script type="text/javascript" src="app/views/Home.js"></script>
+
+![](https://github.com/feedhenry/FH-Training-App-Sencha/blob/v2/docs/HomeView.png?raw=true)
+
+## Extra Task
+
+Try and add some extra icons to the home screen, some sample images are provided in the images/icons directory. Add the necessary Twitter icon as shown in the image at the beggining of this tutorial. This will require extra CSS rules.
+
+<a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v3">Finished Code Pt2.zip</a>
