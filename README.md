@@ -1,361 +1,173 @@
-# FeedHenry Sencha Tutorial - v3
+# FeedHenry Sencha Tutorial - v4
 
 ## Overview
 
-In this tutorial we will adding a new view for the Google Maps page. You will learn the following:
+In this tutorial we will adding a new view for a Twitter feed page. You will learn to use stores, models and further use of FeedHenry APIs.
 
-* Integrate an app with the Google Maps API
-* Use Sencha controllers
-* Learn to use FeedHenry APIs
+* Integrate an app with Twitter to pull tweets with a specified user name.
+* Learn about Sencha stores and models.
+* Use the $fh.web() function to make a web request for your app.
 
-![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v3/docs/MapView.png)
+![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v4/docs/twitterView.png)
 
 ## Step 1
 
-In the index.html file before the '<!-- App -->' line add the following code. This will give us access to the Google Maps API. Using the API is simple with Sencha as they provide a map component that integrates with Google Maps.
+Begin by creating the Twitter view file in views, name it Twitter.js and add the following code. This view uses a new layout type, 'vbox' which is used to stack elements vertically. We also will use the Sencha 'List' component to display tweets.
+	
+	  app.views.Twitter = Ext.extend(Ext.Panel, {
+	  title: 'Twitter',
+	  iconCls: 'time',
+	  width: '100%',
+	  /*
+	   * Layout vbox is used to arrnage items (tweets) stacked above one another
+	   */
+	  layout: {
+	    type: 'vbox'
+	  },
 
-	<!-- Google Maps API -->
-	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+	  listeners: {
+	  	show: function() {
+
+	  	}
+	  },
+
+	  dockedItems: [
+	    {
+	      dock: 'top',
+	      xtype: 'toolbar',
+	      title: '<img class="logo logoOffset" src="app/images/logo.png" />',
+	      items: [
+	        {
+	          text: 'Back',
+	          ui: 'back',
+	          hidden: app.hideBack || false,
+	          handler: function() {
+	            app.views.viewport.setActiveItem(app.views.home, {type: 'slide', direction: 'right'});
+	          }
+	        }
+	      ]
+	    }
+	  ],
+	  
+	  /*
+	   * Below we declare a list. It's store is set to our twitter store. 
+	   * This store is defined in another file. 
+	   * The itemTpl is a template that defines how list items are styled.
+	   * Anything in the tpl surrounded by {} means that the store 
+	   * contains this variable and to populate this list item using that data.
+	   */
+	  items: [
+	    {
+	      xtype: 'list',
+	      width: '100%',
+	      store: app.stores.twitter,
+	      itemTpl: '<img style="float: left; margin: 0px 8px 8px 0px;" src="{profile_image_url}" />' + 
+	      '<strong>{from_user}</strong>' +
+	      '{text}',
+	      flex: 1,
+	      plugins: [{
+	        ptype: 'pullrefresh'
+	      }]
+	    }
+	  ]
+	  });
 
 ## Step 2
 
-In the views directory create a view called 'Map.js' with the following code. This file will create a Sencha map component that will be used in our map view also defined in this file as 'app.views.MapView'.
+You will have seen from Step 1 that we added a list component to the Twitter view. This list is using a store, app.stores.twitter. We must define this store. In the models folder create a file called Twitter.js and add the code below. In this code we define a proxy for the model. The proxy is used to control loading and saving data to the store. The proxy here relies on a FeedHenry API call $fh.act(). The data format is JSON and the function name is 'getTweets'. The device will use $fh.act() to call the funtion from the Cloud. The function is defined in main.js file under the cloud directory. 
 	
+
 	/*
-	 * This creates a Sencha map component that will be used to view the map.
-	 */
-	app.views.map = new Ext.Map({
-	  //fullscreen: true,
-	  layout: {
-	     type: 'fit'
-	  },
-	  id: 'map',
-	  title: 'Map',
-	  mapOptions: {
-	    zoom: 11,
+ 	 * Here we create a model using regModel. 
+ 	 * The model will be used by a store as a template for it's data format.
+ 	 * See that the fields here correspond to data the itemTpl will need.
+ 	 */
+	app.models.Twitter = Ext.regModel('app.models.Twitter', {
+	  fields: ['from_user', 'text', 'profile_image_url', 'from_user_name'],
+	  proxy: {
+	    type: 'fhact',
+	    reader: 'json',
+	    id: 'getTweets'
 	  }
 	});
 
 	/*
-	 * This is our map view. Notice that it's items contain our 'app.views.map' that we 
-	 * defined above.
+	 * Create the Twitter store for tweets using the above model. 
+	 * The store is empty, but will be populated using the model proxy.
 	 */
-	app.views.MapView = Ext.extend(Ext.Panel, {
-	  title: 'Map',
-	  iconCls: 'home',
-	  layout: {
-	   type: 'fit'
-	  },
-
-	  /*
-	   * Listeners are applied to components to perform functions when a specific 
-	   * event occurs. Here for example when the MapView is shown (show), we call
-	   * the Map.js controller's 'getLocation' function.
-	   */
-	  listeners: {
-	    activate: function() {
-	      google.maps.event.trigger(Ext.getCmp("map").map, 'resize');
-	    },
-	  	show: function() {
-	      // Get the users location
-	      Ext.dispatch({
-	        controller: app.controllers.map,
-	        action: 'getLocation'
-	      });
-	  	}
-	  },
-
-	  /*
-       * Here we add a toolbar with a back button.
-   	   * ui: 'back' tells sencha to style the button as a back button
-  	   */
-	  dockedItems: [
-	  	{
-	  		dock: 'top',
-	  		xtype: 'toolbar',
-	      title: '<img class="logo logoOffset" src="app/images/logo.png" />',
-	  		items: [
-	  			{
-	  				text: 'Back',
-	          ui: 'back',
-	          hidden: app.hideBack || false,
-	  				handler: function() {
-	  					app.views.viewport.setActiveItem(app.views.home, {type: 'slide', direction: 'right'});
-	  				}
-	  			}
-	  		]
-	  	}
-	  ],
-	  
-	  items: [
-	  	app.views.map
-	  ]
+	app.stores.twitter = new Ext.data.Store({
+	  model: 'app.models.Twitter',
+	  autoLoad: true,
 	});
 
 ## Step 3 
 
-In the controllers directory create a new file called 'Map.js' with the following code. This file contains code that controls the map functionality. This uses some of the FeedHenry APIs such as 'fh.data' for loading stored map points from local storage. Examine this file closely and read the API information <a href="http://docs.feedhenry.com/api-reference/">here</a>.
+To populate our store with tweets we add the following function to the main.js file in our cloud directory. The app.stores.twitter using the app.models.Twitter will invoke this call to populate the list automatically due to it's proxy. 
 
-	app.controllers.map = new Ext.Controller({
+	function getTweets() {
+	  var username   = 'feedhenry';
+	  var num_tweets = 10;
+	  var url        = 'http://search.twitter.com/search.json?q=' + username;
 
-	  markers: [], // Keep track of any map markers
-
-	  // Remove all markers from the map
-	  clearMarkers: function() {
-	    if (this.markers) {
-	      for (i = 0; i < this.markers.length; i++) {
-	        this.markers[i].setMap(null);
-	      }
-	    }
-	  },
-
-	  /*
-	   * Load cached points from local storage using the fh.data() API call
-	   */
-	  loadPoints: function() {
-	    $fh.data({
-	      key: 'points'
-	    }, function(res) {
-	      console.log(res);
-
-	      if (res.val === null) { // No client data found
-	        app.controllers.map.getPoints();
-	      } else {
-	        // Parse the cached data
-	        var cache = JSON.parse(res.val);
-	        var hash  = cache.hash;
-
-	        app.controllers.map.getPoints(cache, hash);
-	      }
-	    });
-	  },
-
-	  /*
-	   * Get points from the cloud using fh.act() which will call a function from
-	   * the cloud in our main.js file.
-	   */
-	  getPoints: function(cache, hash) {
-	    var map = Ext.getCmp("map").map;
-	    $fh.act({
-	      act: 'getPoints',
-	      req: {
-	        hash: hash,
-	        timestamp: new Date().getTime()
-	      }
-	    }, function(res) {
-	      if (hash && hash === res.hash) {
-	        console.log("Client data is at the latest version");
-	      } else {
-	        $fh.data({
-	          act: 'save',
-	          key: 'points',
-	          val: JSON.stringify(res)
-	        });
-	      }
-	      var map = Ext.getCmp("map").map;
-
-	      for (var i = 0; i < res.data.locations.length; i++) {
-	        var point = res.data.locations[i];
-	        var pos   = new google.maps.LatLng(point.lat, point.lon);
-
-	        app.controllers.map.markers.push(new google.maps.Marker({
-	          position: pos,        
-	          map: map,
-	          icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + (i+1) + '|FF0000|000000'
-	        })); 
-	      }
-	    });
-	  },
-
-	  /*
-	   * Get the users location and draw a marker at their location
-	   */
-	  getLocation: function(options){
-	    // Instance of the google map
-	    var map = Ext.getCmp("map").map;
-	    var pos = {};
-
-	    $fh.geo({
-	      interval: 0
-	    }, function(res){
-	      pos = new google.maps.LatLng(res.lat, res.lon);
-	      map.setCenter(pos);
-
-	      // Remove any previously created markers
-	      app.controllers.map.clearMarkers();
-
-	      // Create a marker at the current location
-	      app.controllers.map.markers.push(new google.maps.Marker({
-	        position: pos,        
-	        map: map,
-	        icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=0|00FF00|000000'
-	      }));  
-
-	      // Get markers from the cloud
-	      app.controllers.map.loadPoints();
-	      
-	    }, function() {
-	      // We failed to get the users geolocation, fallback to geo ip
-	      alert("$fh.geo failed");
-	      alert(JSON.stringify(res.geoip));
-	    });
-	  }
-
-	});
-
-## Step 4
-
-Now we are going to implement the Cloud features of the FeedHenry platform. You might have noticed in the Map controller we call the FeedHenry $fh.act() call. This allows us to call a function from the server (cloud), read more about this <a href="http://docs.feedhenry.com/api-reference/actions/">here</a>. In the cloud directory add the following code to the main.js file. Functions in the Cloud directory can be called from device via an $fh.act() call.
-
-	/*
-	 * Maps
-	 */
-	// Cache points for 10 seconds
-	var CACHE_TIME = 30;
-	var MARKERS = {
-	  locations: [
-	    {
-	      lat: '52.245671',
-	      lon: '-7.080002'
-	    },
-	    {
-	      lat: '52.257861',
-	      lon: '-7.136993'
-	    }
-	  ]
-	};
-
-	/*
-	 * If we have points cached in the cloud load them.
-	 */
-	function getCachedPoints() {
-	  var ret = $fh.cache({
-	    "act": "load",
-	    "key": "points"
+	  var response = $fh.web({
+	    url: url,
+	    method: 'GET',
+	    allowSelfSignedCert: true
 	  });
-	  return ret.val;
+	  return {'data': $fh.parse(response.body).results};
 	}
 
-	/*
-	 * Similar to the above function but instead we are saving the points
-	 */
-	function cachePoints(hash, data) {
-	  var obj = {
-	    "hash": hash,
-	    "data": data,
-	    "cached": true
-	  };
-	  $fh.cache({
-	    "act": "save",
-	    "key": "points",
-	    "val": obj,
-	    "expire": CACHE_TIME
-	  });
-	}
 
-	 /* 
-	  * This function would be called from the device using an act call.
-	  */
-	function getPoints() {
-	  var response = {};
-	  var cache    = getCachedPoints();
+## Task
 
-	  if (cache.length === 0) {
-	    var data = MARKERS;
-	    var hash = $fh.hash({
-	      algorithm: 'MD5',
-	      text: $fh.stringify(data)
+Try to finish out the adding of the Twitter section of the app. This will be similar to adding our Map view from v3. Remember the steps invloved:
+
+* Update index.html
+* Add the view to Viewport.js
+* A button needs to be added to the homepage and styled with CSS.
+* The button requires a handler with setActiveItem(app.views.ViewName).
+
+
+## Step 4 
+
+These steps are needed if you have not finished adding the Twitter page. Make sure to update index.html to include the new files we have made. Add the following line under our app.js include.
+
+	<!-- Models -->
+	<script type="text/javascript" src="app/models/Twitter.js"></script> 
+
+And add the following line under our <!-- Views --> tag.
+
+	<script type="text/javascript" src="app/views/Twitter.js"></script>
+
+Viewport.js now needs to be updated to include our Twitter view. Insert the following code to do this. 
+	
+	initComponent: function() {
+	    // Put instances of cards into app.views namespace
+	    Ext.apply(app.views, {
+	      home:     new app.views.Home(),
+	      map:      new app.views.MapView(),
+	      twitter:  new app.views.Twitter()
 	    });
-
-	    // Cache the data
-	    cachePoints(hash, data);
-
-	    // Build the response
-	    response = {'data': data, 'hash':hash, 'cached':false};
-	  } else {
-	    // Parse the cached data
-	    cache = $fh.parse(cache);
-
-	    if( $params.hash && $params.hash === cache.hash ) {
-	      // Client data is up to date
-	      response = {'hash':$params.hash, 'cached':true};
-	    } else {
-	      // Hash value from client missing or incorrect, return cached cloud data
-	      response = cache;
-	    }
-	  }
-	  return response;
-	}
+	    //put instances of cards into viewport
+	    Ext.apply(this, {
+	      items: [
+	        app.views.home,
+	        app.views.map,
+	        app.views.twitter
+	      ]
+	    });
+	    app.views.Viewport.superclass.initComponent.apply(this, arguments);
+	 }
 
 ## Step 5
 
-Update the references to these new files in the index.html page so Sencha is aware of them.
+Home.js also needs to be updated. If you haven't added a Twitter button do so now and add the following handler function to it. 
 
-To the views section add.
+	handler: function() {
+			  	app.views.viewport.setActiveItem(app.views.twitter, {type: 'slide', direction: 'left'});
+			  }
 
-	<script type="text/javascript" src="app/views/Map.js"></script>
 
-To the controllers section add.
+![](https://github.com/feedhenry/FH-Training-App-Sencha/raw/v4/docs/tweets.png)
 
-	<script type="text/javascript" src="app/controllers/Map.js"></script>
-
-## Task 
-
-Try updating your Viewport.js and Home.js files to allow navigation to the Map View. This is the same concept as including the home view. You will need to include a handler function in Home.js on the map icon that uses 'app.views.viewport.setActiveItem(view, animation)' function.
-
-When you have tried this move on to the next steps for a solution.
-
-## Step 6
-
-These steps are only necessary if you have not managed to successfully update your app to allow viewing of the Map View. Create an instance of the map view in 'Viewport.js'
-
-	initComponent: function() {
-	  // Put instances of cards into app.views namespace
-	  Ext.apply(app.views, {
-	    home:     new app.views.Home(),
-	    map:      new app.views.MapView()
-	  });
-	  //put instances of cards into viewport
-	  Ext.apply(this, {
-	    items: [
-	      app.views.home,
-	      app.views.map
-	    ]
-	  });
-	  app.views.Viewport.superclass.initComponent.apply(this, arguments);
-	}
-
-## Step 7
-
-In 'Home.js' update the handler to navigate to the map view
-
-  	{
-  		xtype: 'button',
-  		cls: 'mapIcon',
-  		width:  100,
-  		height: 100,
-  		handler: function() {
-  			app.views.viewport.setActiveItem(app.views.map, {type: 'slide', direction: 'left'});
-  		}
-  	},
-
-## Extra Task
-
-In the 'main.js' file found in the cloud directory, find the following code snippet.
-
-	var MARKERS = {
-	  locations: [
-	    {
-	      lat: '52.245671',
-	      lon: '-7.080002'
-	    },
-	    {
-	      lat: '52.257861',
-	      lon: '-7.136993'
-	    }
-	  ]
-	};
-
-Changes the longitude and latitude values and then view the map page. The markers on the page should now be located in a new position.
-
-<a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v4">Finished Code Pt3.zip</a>
+<a href="https://github.com/feedhenry/FH-Training-App-Sencha/zipball/v5">Finished Code Pt4.zip</a>
