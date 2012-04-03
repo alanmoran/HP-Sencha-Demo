@@ -109,9 +109,7 @@ Begin by creating the Stocks view file in views, name it Stocks.js and add the f
 		  }]
 		});
 
-Some of the same Sencha componets should look familar from the payment view that was created earlier. Also not that we have a list element to display the results from the cloud.
-
-![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v7/docs/stocksResult.png)
+Some of the same Sencha componets should look familar from the payment view that was created earlier. Also note that we have a list element to display the results from the cloud call.
 
 ## Step 2 - Client Side (Controller)
 
@@ -257,5 +255,7 @@ Open stock.js in cloud folder and put the following code inside:
 
 Please read the comments to have a step by step guide of the cloud intergration.
 We also use a XML to JSON parser and a util.js file.
+
+![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v7/docs/stocksResult.png)
 	  	
 'git checkout v7' to get the completed code foir this section which is also the starting point for the <a href="https://github.com/feedhenry/HP-Sencha-Demo/tree/v7">next section.</a>
