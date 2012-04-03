@@ -24,88 +24,90 @@ In this tutorial we will adding a new view for a stocks mash up. This will demon
 ## Step 1 - Client Side
 Begin by creating the Stocks view file in views, name it Stocks.js and add the following code.
 
-//Stock.js View
-app.views.Stocks = Ext.extend(Ext.Panel, {
-  title: 'Stocks',
-  iconCls: 'home',
-  scroll: 'vertical',
-  height: '100%',
-  layout: 'fit',
+		/**
+		 * Stock.js View
+	 	**/
+		app.views.Stocks = Ext.extend(Ext.Panel, {
+		  title: 'Stocks',
+		  iconCls: 'home',
+		  scroll: 'vertical',
+		  height: '100%',
+		  layout: 'fit',
 
-  listeners: {
-    beforeshow: function() {
-    },
-  },
+		  listeners: {
+		    beforeshow: function() {
+		    },
+		  },
 
-  dockedItems: [
-  	{
-  		dock: 'top',
-  		xtype: 'toolbar',
-      title: '<img class="logo logoOffset" src="app/images/logo.png" />',
-  		items: [
-  			{
-  				text: 'Back',
-          ui: 'back',
-          hidden: app.hideBack || false,
-  				handler: function() {
-  					app.views.viewport.setActiveItem(app.views.home, {type: 'slide', direction: 'right'});
-            app.stores.stocks.removeAll();
-  				}
-  			}
-  		]
-  	}
-  ],
-  
-  items: [{
-    xtype: 'panel',
-    layout:{
-    type:'vbox',
-    align: 'strech'
- 
-   },
-   defaults:{flex:'1'},
-   items: [{
-      xtype: 'form',
-      items: [
-        {
-          xtype: 'fieldset',
-          title: 'Search Stock Info',
-          instructions: 'Enter company name above to perform a mash-up.',
-          defaults: {
-            labelAlign: 'left',
-            labelWidth: '50%'
-          },
-          items: [
-            {
-              xtype: 'textfield',
-              id: 'companyName',
-              name: 'Company Name'
-            },
-          ]
-        },
-        {
-          xtype: 'button',
-          text: 'Submit',
-          handler: function() {
-            Ext.dispatch({
-              controller: app.controllers.stocks,
-              action: 'getStocks'
-            });
-          }
-        }
-      ]
-    },{
-      id:"stockResults",
-      xtype: 'list',
-      width: '100%',
-      disableSelection: true,
-      scroll: "vertical",
-      store: app.stores.stocks,
-      itemTpl:'<h2>Stock: {Symbol}</h2><ul><li>Change:  {Change}</li><li>Date:  {Date}</li><li>Last:  {Last}</li><li>Name:  {Name}</li><li>Symbol:  {Symbol}</li><li>Time:  {Time}</li></ul>',
-      flex: 1
-    }]
-  }]
-});
+		  dockedItems: [
+		  	{
+		  		dock: 'top',
+		  		xtype: 'toolbar',
+		      title: '<img class="logo logoOffset" src="app/images/logo.png" />',
+		  		items: [
+		  			{
+		  				text: 'Back',
+		          ui: 'back',
+		          hidden: app.hideBack || false,
+		  				handler: function() {
+		  					app.views.viewport.setActiveItem(app.views.home, {type: 'slide', direction: 'right'});
+		            app.stores.stocks.removeAll();
+		  				}
+		  			}
+		  		]
+		  	}
+		  ],
+		  
+		  items: [{
+		    xtype: 'panel',
+		    layout:{
+		    type:'vbox',
+		    align: 'strech'
+		 
+		   },
+		   defaults:{flex:'1'},
+		   items: [{
+		      xtype: 'form',
+		      items: [
+		        {
+		          xtype: 'fieldset',
+		          title: 'Search Stock Info',
+		          instructions: 'Enter company name above to perform a mash-up.',
+		          defaults: {
+		            labelAlign: 'left',
+		            labelWidth: '50%'
+		          },
+		          items: [
+		            {
+		              xtype: 'textfield',
+		              id: 'companyName',
+		              name: 'Company Name'
+		            },
+		          ]
+		        },
+		        {
+		          xtype: 'button',
+		          text: 'Submit',
+		          handler: function() {
+		            Ext.dispatch({
+		              controller: app.controllers.stocks,
+		              action: 'getStocks'
+		            });
+		          }
+		        }
+		      ]
+		    },{
+		      id:"stockResults",
+		      xtype: 'list',
+		      width: '100%',
+		      disableSelection: true,
+		      scroll: "vertical",
+		      store: app.stores.stocks,
+		      itemTpl:'<h2>Stock: {Symbol}</h2><ul><li>Change:  {Change}</li><li>Date:  {Date}</li><li>Last:  {Last}</li><li>Name:  {Name}</li><li>Symbol:  {Symbol}</li><li>Time:  {Time}</li></ul>',
+		      flex: 1
+		    }]
+		  }]
+		});
 
 Some of the same Sencha componets should look familar from the payment view that was created earlier. Also not that we have a list element to display the results from the cloud.
 
@@ -116,46 +118,41 @@ Some of the same Sencha componets should look familar from the payment view that
 Now that our views have been created we need to add in the necessary controllers for the functionality of the stocks section. The controller is added to app.controllers and instantiated using Ext.Controller. The controller relies on a cloud call which are done using $fh.act(). The function called from the cloud is getStockInfo() as specified by 'act: getStocks'.
 
 		/**
-		 * 
 		 * Stock.js Controller
-		 * 
-		 *
 	 	**/
 		app.controllers.stocks = new Ext.Controller({
+		 	getStocks: function() {
+		    var companyName  = Ext.getCmp("companyName").getValue();
 
-	  getStocks: function() {
-	    var companyName  = Ext.getCmp("companyName").getValue();
+		    if (companyName.length == 0) {
+		      Ext.Msg.alert('Error', 'You must enter a company name.', Ext.emptyFn);
+		      return;
+		    }
+		    // Show loading spinner
+		     mask.show();
 
-	    if (companyName.length == 0) {
-	      Ext.Msg.alert('Error', 'You must enter a company name.', Ext.emptyFn);
-	      return;
-	    }
-	    // Show loading spinner
-	     mask.show();
+		    // Call to the cloud
+		    $fh.act({
+		      act: 'getStockInfo',
+		      req: {
+		        name: companyName,
+		      }
+		    }, function(res) { 
+		      //Adding res to store
+		      app.stores.stocks.add({Name: res.stockInfo.Name, Symbol:res.stockInfo.Symbol, Last: res.stockInfo.Last, Change: res.stockInfo.Change, Date: res.stockInfo.Date, Open: res.stockInfo.Open, Time: res.stockInfo.Time});
 
-	    // Call to the cloud
-	    $fh.act({
-	      act: 'getStockInfo',
-	      req: {
-	        name: companyName,
-	      }
-	    }, function(res) { 
-	      //Adding res to store
-	      app.stores.stocks.add({Name: res.stockInfo.Name, Symbol:res.stockInfo.Symbol, Last: res.stockInfo.Last, Change: res.stockInfo.Change, Date: res.stockInfo.Date, Open: res.stockInfo.Open, Time: res.stockInfo.Time});
+		      // Hide loading spinner
+		      mask.hide();
 
-	      // Hide loading spinner
-	      mask.hide();
+		      //Empty the company field
+		      Ext.getCmp("companyName").setValue();
 
-	      //Empty the company field
-	      Ext.getCmp("companyName").setValue();
-
-	    },function(err){
-	      mask.hide();
-	      Ext.Msg.alert('Error', 'An error has occurred with your request. Please try again.', Ext.emptyFn);
-	    });
-	  }
-
-	});
+		    },function(err){
+		      mask.hide();
+		      Ext.Msg.alert('Error', 'An error has occurred with your request. Please try again.', Ext.emptyFn);
+		    });
+		  }
+		});
 
 Note we have an error alert dialog box to catch any errors that could be returned from the cloud.
 
