@@ -21,7 +21,7 @@ In this tutorial we will adding a new view for a stocks mash up. This will demon
 
 ![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v7/docs/stocks.png)
 
-## Step 1 - Client Side
+## Step 1 - Client Side (View)
 Begin by creating the Stocks view file in views, name it Stocks.js and add the following code.
 
 		/**
@@ -111,9 +111,9 @@ Begin by creating the Stocks view file in views, name it Stocks.js and add the f
 
 Some of the same Sencha componets should look familar from the payment view that was created earlier. Also not that we have a list element to display the results from the cloud.
 
-![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v7/docs/stocksResults.png)
+![](https://github.com/feedhenry/HP-Sencha-Demo/raw/v7/docs/stocksResult.png)
 
-## Step 2 - Client Side
+## Step 2 - Client Side (Controller)
 
 Now that our views have been created we need to add in the necessary controllers for the functionality of the stocks section. The controller is added to app.controllers and instantiated using Ext.Controller. The controller relies on a cloud call which are done using $fh.act(). The function called from the cloud is getStockInfo() as specified by 'act: getStocks'.
 
@@ -157,7 +157,7 @@ Now that our views have been created we need to add in the necessary controllers
 Note we have an error alert dialog box to catch any errors that could be returned from the cloud.
 
 
-## Step 2 -- Cloud
+## Step 3 -- Cloud
 Open stock.js in cloud folder and put the following code inside:
 
 	 /**
