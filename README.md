@@ -115,43 +115,47 @@ Some of the same Sencha componets should look familar from the payment view that
 
 Now that our views have been created we need to add in the necessary controllers for the functionality of the stocks section. The controller is added to app.controllers and instantiated using Ext.Controller. The controller relies on a cloud call which are done using $fh.act(). The function called from the cloud is getStockInfo() as specified by 'act: getStocks'.
 
+		/**
+		 * 
+		 * Stock.js Controller
+		 * 
+		 *
+	 	**/
+		app.controllers.stocks = new Ext.Controller({
 
-	//Stock.js Controller
-	app.controllers.stocks = new Ext.Controller({
+	  getStocks: function() {
+	    var companyName  = Ext.getCmp("companyName").getValue();
 
-  getStocks: function() {
-    var companyName  = Ext.getCmp("companyName").getValue();
+	    if (companyName.length == 0) {
+	      Ext.Msg.alert('Error', 'You must enter a company name.', Ext.emptyFn);
+	      return;
+	    }
+	    // Show loading spinner
+	     mask.show();
 
-    if (companyName.length == 0) {
-      Ext.Msg.alert('Error', 'You must enter a company name.', Ext.emptyFn);
-      return;
-    }
-    // Show loading spinner
-     mask.show();
+	    // Call to the cloud
+	    $fh.act({
+	      act: 'getStockInfo',
+	      req: {
+	        name: companyName,
+	      }
+	    }, function(res) { 
+	      //Adding res to store
+	      app.stores.stocks.add({Name: res.stockInfo.Name, Symbol:res.stockInfo.Symbol, Last: res.stockInfo.Last, Change: res.stockInfo.Change, Date: res.stockInfo.Date, Open: res.stockInfo.Open, Time: res.stockInfo.Time});
 
-    // Call to the cloud
-    $fh.act({
-      act: 'getStockInfo',
-      req: {
-        name: companyName,
-      }
-    }, function(res) { 
-      //Adding res to store
-      app.stores.stocks.add({Name: res.stockInfo.Name, Symbol:res.stockInfo.Symbol, Last: res.stockInfo.Last, Change: res.stockInfo.Change, Date: res.stockInfo.Date, Open: res.stockInfo.Open, Time: res.stockInfo.Time});
+	      // Hide loading spinner
+	      mask.hide();
 
-      // Hide loading spinner
-      mask.hide();
+	      //Empty the company field
+	      Ext.getCmp("companyName").setValue();
 
-      //Empty the company field
-      Ext.getCmp("companyName").setValue();
+	    },function(err){
+	      mask.hide();
+	      Ext.Msg.alert('Error', 'An error has occurred with your request. Please try again.', Ext.emptyFn);
+	    });
+	  }
 
-    },function(err){
-      mask.hide();
-      Ext.Msg.alert('Error', 'An error has occurred with your request. Please try again.', Ext.emptyFn);
-    });
-  }
-
-});
+	});
 
 Note we have an error alert dialog box to catch any errors that could be returned from the cloud.
 
@@ -159,12 +163,12 @@ Note we have an error alert dialog box to catch any errors that could be returne
 ## Step 2 -- Cloud
 Open stock.js in cloud folder and put the following code inside:
 
- /**
- * Mash multiple business apis returned data.
- * Stock Symble lookup: Using YAHOO API. JSONP
- * Stock Info lookup: Using WebServiceX API . SOAP
- *
- **/
+	 /**
+	 * Mash multiple business apis returned data.
+	 * Stock Symble lookup: Using YAHOO API. JSONP
+	 * Stock Info lookup: Using WebServiceX API . SOAP
+	 *
+	 **/
 
 	var stock = {
 		//YAHOO finance api for looking up stock symbol with a company name. It is a JSONP service.
