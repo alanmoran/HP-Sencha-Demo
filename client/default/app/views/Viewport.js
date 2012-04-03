@@ -26,9 +26,9 @@ app.views.Viewport = Ext.extend(Ext.Panel, {
     });
     // Put instances of cards (views) into viewport here
     Ext.apply(this, {
-      items: [
-
-      ]
+      items: [{
+        html: 'Test View'
+      }]
     });
     app.views.Viewport.superclass.initComponent.apply(this, arguments);
   }
