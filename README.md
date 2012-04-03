@@ -166,30 +166,30 @@ Open stock.js in cloud folder and put the following code inside:
  *
  **/
 
-var stock = {
-	//YAHOO finance api for looking up stock symbol with a company name. It is a JSONP service.
-	yahooApi : "http://d.yimg.com/autoc.finance.yahoo.com/autoc?query={0}&callback=YAHOO.Finance.SymbolSuggest.ssCallback",
-	//WebServiceX API (Open API). It returns stock details with specific stock symbol.
-	webServiceXApi : "http://www.webservicex.net/stockquote.asmx",
-	/**
-	 * The function will look for stock symbol based on "name" param, and return stock info from WebServiceX
-	 *
-	 * Return stock information.
-	 */
-	getStockInfo : function(name) {
-		//Compose request url using user input.
-		var yahooApiUrl = this.yahooApi.replace("{0}", name);
-		/*
-		 * Perform Webcall
-		 * Raw response from YAHOO JSONP api which contains stock symbol as well as other information we do not want.
+	var stock = {
+		//YAHOO finance api for looking up stock symbol with a company name. It is a JSONP service.
+		yahooApi : "http://d.yimg.com/autoc.finance.yahoo.com/autoc?query={0}&callback=YAHOO.Finance.SymbolSuggest.ssCallback",
+		//WebServiceX API (Open API). It returns stock details with specific stock symbol.
+		webServiceXApi : "http://www.webservicex.net/stockquote.asmx",
+		/**
+		 * The function will look for stock symbol based on "name" param, and return stock info from WebServiceX
 		 *
+		 * Return stock information.
 		 */
-		var symbolRes = $fh.web({
-			url : yahooApiUrl,
-			method : "GET",
-			charset : "UTF-8",
-			period : 3600
-		});
+		getStockInfo : function(name) {
+			//Compose request url using user input.
+			var yahooApiUrl = this.yahooApi.replace("{0}", name);
+			/*
+			 * Perform Webcall
+			 * Raw response from YAHOO JSONP api which contains stock symbol as well as other information we do not want.
+			 *
+			 */
+			var symbolRes = $fh.web({
+				url : yahooApiUrl,
+				method : "GET",
+				charset : "UTF-8",
+				period : 3600
+			});
 
 		//Clear up YAHOO response and only keep the information "stock symbol" we need.
 		var stockSymbol = this.processSymbolRes(symbolRes);
