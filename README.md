@@ -24,6 +24,7 @@ In this tutorial we will adding a new view for a stocks mash up. This will demon
 ## Step 1 - Client Side
 Begin by creating the Stocks view file in views, name it Stocks.js and add the following code.
 
+//Stock.js View
 app.views.Stocks = Ext.extend(Ext.Panel, {
   title: 'Stocks',
   iconCls: 'home',
@@ -114,6 +115,8 @@ Some of the same Sencha componets should look familar from the payment view that
 
 Now that our views have been created we need to add in the necessary controllers for the functionality of the stocks section. The controller is added to app.controllers and instantiated using Ext.Controller. The controller relies on a cloud call which are done using $fh.act(). The function called from the cloud is getStockInfo() as specified by 'act: getStocks'.
 
+
+	//Stock.js Controller
 	app.controllers.stocks = new Ext.Controller({
 
   getStocks: function() {
@@ -154,15 +157,14 @@ Note we have an error alert dialog box to catch any errors that could be returne
 
 
 ## Step 2 -- Cloud
----------------------------------------
 Open stock.js in cloud folder and put the following code inside:
 
-           /**
+ /**
  * Mash multiple business apis returned data.
  * Stock Symble lookup: Using YAHOO API. JSONP
  * Stock Info lookup: Using WebServiceX API . SOAP
  *
- */
+ **/
 
 var stock = {
 	//YAHOO finance api for looking up stock symbol with a company name. It is a JSONP service.
