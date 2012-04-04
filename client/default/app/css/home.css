@@ -66,6 +66,21 @@
   background-size: 100% 100%;
   background-image: url("../images/icons/payment_icon.png") !important;
 }
+
 .paymentIcon:active, .paymentIcon:hover {
 	opacity: 0.5;
+}
+
+#stockResults{
+	margin-top: 50px !important;
+}
+
+li {
+list-style: none;
+padding-bottom: 4px !important;
+padding-left: 15px !important;
+}
+
+ul{
+	padding-top: 15px !important;
 }
