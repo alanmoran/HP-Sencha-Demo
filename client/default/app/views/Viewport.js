@@ -15,7 +15,8 @@ app.views.Viewport = Ext.extend(Ext.Panel, {
       map:      new app.views.MapView(),
       twitter:  new app.views.Twitter(),        
       payment:  new app.views.Payment(),      
-      camera:   new app.views.Camera()
+      camera:   new app.views.Camera(),
+      stocks:   new app.views.Stocks()
     });
     //put instances of cards into viewport
     Ext.apply(this, {
@@ -24,7 +25,8 @@ app.views.Viewport = Ext.extend(Ext.Panel, {
         app.views.payment,
         app.views.twitter,
         app.views.map,        
-        app.views.camera
+        app.views.camera,
+        app.views.stocks
       ]
     });
     app.views.Viewport.superclass.initComponent.apply(this, arguments);
